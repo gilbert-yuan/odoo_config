@@ -153,7 +153,7 @@ odoo.define('ExtraWidget', function(require) {
                 tooltip: {
                     show: true
                 },
-                toolbox: self.bar_tool_box,
+                toolbox: self.bar_tool_box(),
                 calculable: true,
                 legend: {
                     data: self.legend_data || []
@@ -205,7 +205,7 @@ odoo.define('ExtraWidget', function(require) {
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: self.series_data,
+                    data: self.series_data(),
                 }],
             };
             return option;
