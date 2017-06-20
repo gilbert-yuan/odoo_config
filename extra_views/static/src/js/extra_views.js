@@ -88,8 +88,7 @@ odoo.define('ExtraViews', function(require) {
         },
         do_search: function(domain, context, group_by) {
             if (!this.widget) {
-                this.$el.append("<div class='o_graph_svg_container'>\
-                <div id='main'  style='width: 980px;height:700px;'></div></div>");
+                this.$el.append("<div id='main' class='main' style='min-width: 880px;min-height:600px;'></div>");
                 this.initial_groupbys = context.graph_groupbys || (group_by.length ? group_by : this.initial_groupbys);
                 this.widget = new ExtraWidget(this, this.model, {
                     measure: context.graph_measure || this.active_measure,

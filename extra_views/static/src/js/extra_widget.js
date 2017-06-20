@@ -27,6 +27,7 @@ odoo.define('ExtraWidget', function(require) {
             this.mode = options.mode || "bar";
             this.measure = options.measure || "__count__";
             this.stacked = options.stacked;
+            this.name = this.getParent().ViewManager.title;
         },
         start: function() {
             return this.load_data().then(this.proxy('display_graph'));
@@ -150,6 +151,7 @@ odoo.define('ExtraWidget', function(require) {
             self.series_data = [];
             self.prepare_bar_data();
             var option = {
+
                 tooltip: {
                     show: true
                 },
@@ -188,7 +190,12 @@ odoo.define('ExtraWidget', function(require) {
             self.xaxis_data = this.labels && _.unique(this.labels[0]) || [];
             self.series_data = [];
             self.prepare_pie_data();
+            console.log(self.getParent());
             var option = {
+                title: {
+                    text: self.name,
+                    x: 'center'
+                },
                 tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -198,14 +205,14 @@ odoo.define('ExtraWidget', function(require) {
                     x: 'left',
                     data: self.xaxis_data
                 },
-                toolbox: self.pie_tool_box,
+                toolbox: self.pie_tool_box(),
                 calculable: true,
                 series: [{
-                    name: '',
+                    name: self.name,
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: self.series_data(),
+                    data: self.series_data,
                 }],
             };
             return option;
@@ -239,7 +246,7 @@ odoo.define('ExtraWidget', function(require) {
                                 x: '25%',
                                 width: '50%',
                                 funnelAlign: 'left',
-                                max: 1548
+                                max: Math.max(self.series_data)
                             }
                         }
                     },
@@ -247,7 +254,7 @@ odoo.define('ExtraWidget', function(require) {
                     saveAsImage: { show: true }
                 }
             };
-            return toolbox
+            return toolbox;
         }
     });
 });
