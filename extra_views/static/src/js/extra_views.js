@@ -43,27 +43,6 @@ odoo.define('ExtraViews', function(require) {
             });
             return $.when(this._super(), fields_def);
         },
-        /**
-         * Render the buttons according to the ExtraViews.buttons and
-         * add listeners on it.
-         * Set this.$buttons with the produced jQuery element
-         * @param {jQuery} [$node] a jQuery node where the rendered buttons should be inserted
-         * $node may be undefined, in which case the ExtraViews does nothing
-         */
-        render_buttons: function($node) {
-            if ($node) {
-                var context = { measures: _.pairs(_.omit(this.measures, '__count__')) };
-                this.$buttons = $(QWeb.render('ExtraViews.buttons', context));
-                this.$measure_list = this.$buttons.find('.o_extra_measures_list'); //根据您的需求和js库的丰富程度添加
-                this.update_measure();
-                this.$buttons.find('button').tooltip();
-                this.$buttons.click(this.on_button_click.bind(this));
-
-                this.$buttons.find('.o_extra_button[data-mode="' + this.widget.mode + '"]').addClass('active');
-
-                this.$buttons.appendTo($node);
-            }
-        },
         update_measure: function() {
             var self = this;
             this.$measure_list.find('li').each(function(index, li) {
@@ -87,8 +66,22 @@ odoo.define('ExtraViews', function(require) {
             this.measures.__count__ = { string: _t("Count"), type: "integer" };
         },
         do_search: function(domain, context, group_by) {
+            var self = this;
+            self.client_view = self.getParent().getParent().getParent();
+            self.control_panel = $(self.client_view.$el.find('.o_control_panel')[0]);
+            self.sub_menu = $(self.client_view.$el.find('.o_sub_menu')[0]);
+            self.control_panel.css('display','none');
+            self.sub_menu .css('display','none');
             if (!this.widget) {
-                this.$el.append("<div id='main' class='main' style='min-width: 880px;min-height:600px;'></div>");
+                var extra_view_options = eval("("+this.fields_view.arch.attrs.extra_views_options+")");
+                self.$el.append("<div class='row'></div>");
+                _.each(extra_view_options, function (views_option, index, list) {
+                    var gragh_id = 'main_'+views_option[0]+index;
+                    self.$el.find('.row').append($("<div id='"+gragh_id+"' class='col-md-6'\
+                        style='min-width: 480px;min-height:300px;'></div>"));
+                    extra_view_options[index][1].div_id = gragh_id;
+                });
+                /*<div id='main_pie' class='col-md-6' style='min-width: 480px;min-height:600px;'></div></div>");*/
                 this.initial_groupbys = context.graph_groupbys || (group_by.length ? group_by : this.initial_groupbys);
                 this.widget = new ExtraWidget(this, this.model, {
                     measure: context.graph_measure || this.active_measure,
@@ -96,10 +89,10 @@ odoo.define('ExtraViews', function(require) {
                     domain: domain,
                     groupbys: this.initial_groupbys,
                     context: context,
+                    extra_view_options: extra_view_options,
                     fields: this.fields,
                     stacked: this.fields_view.arch.attrs.stacked !== "False"
                 });
-                // append widget
                 this.widget.appendTo(this.$el);
             } else {
                 var groupbys = group_by.length ? group_by : this.initial_groupbys.slice(0);
@@ -113,32 +106,19 @@ odoo.define('ExtraViews', function(require) {
                 graph_groupbys: this.widget.groupbys
             };
         },
-        on_button_click: function(event) {
-            var $target = $(event.target);
-            if ($target.hasClass('o_extra_button')) {
-                this.widget.set_mode($target.data('mode'));
-                this.$buttons.find('.o_extra_button.active').removeClass('active');
-                $target.addClass('active');
-            } else if ($target.parents('.o_extra_measures_list').length) {
-                var parent = $target.parent();
-                var field = parent.data('field');
-                this.active_measure = field;
-                event.preventDefault();
-                event.stopPropagation();
-                this.update_measure();
-                this.widget.set_measure(this.active_measure);
-            }
-        },
+
         destroy: function() {
+            var self =this;
             if (this.$buttons) {
                 this.$buttons.find('button').off(); // remove jquery's tooltip() handlers
             }
+            self.control_panel.css('display','inline');
+            self.sub_menu.css('display','inline');
             return this._super.apply(this, arguments);
         },
     });
 
-    core.view_registry.add('extra_view', ExtraViews);
-
+    core.view_registry.add('extra_views', ExtraViews);
     return ExtraViews;
 
 });
