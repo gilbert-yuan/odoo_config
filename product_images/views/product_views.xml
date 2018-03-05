@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="supplier assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type='text/javascript' src="/product_images/static/js/vue2.js"></script>
+            <link rel='stylesheet' href='product_images/static/css/app.css'/>
+            <!--<script type='text/javascript' src='supplier/static/js/manifest.js'></script>-->
+            <!--<script type='text/javascriptmain_picture' src='supplier/static/js/vendor.js'></script>-->
+            <!--<script type='text/javascript' src='supplier/static/js/app.js'></script>-->
+            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/manifest.js'></script>
+            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/vendor.js'></script>
+            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/app.js'></script>
+        </xpath>
+    </template>
+    <data>
+        <record id="product_template_form" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="priority" eval="200"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="description_editor" string="详细描述">
+                        <field name="description_editor" widget="html"/>
+                    </page>
+                    <page name="images_html" string="图片列表">
+                        <field name="images_html" widget="html"/>
+                    </page>
+                     <page name="introduction" string="图文介绍">
+                        <field name="introduction" widget="html"/>
+                    </page>
+                </notebook>
+            </field>
+      </record>
+    </data>
+</odoo>
