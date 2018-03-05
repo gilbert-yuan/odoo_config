@@ -7,7 +7,7 @@
     <div class="dftg-editor" @dragover.prevent="dragover" @dragend.prevent="dragend" @drop.prevent="drop" @dragenter.prevent.stop="dragenter" @dragleave.prevent.stop.self="dragleave" :class="{dragging: dragging}" >
       <ul id="image_items">
         <li @click="click_item(item_index)" class="editor-item" :class="{choosed: item_index == choose_index}" v-for="(item, item_index) in items" :data-index="item_index">
-          <component :config="config" :model="item" :editor_sku="config.osv.editor_sku"  :product_id="config.osv.editor_id" :index="item_index" :is='item.component'>
+          <component :config="config" @addId="newImageAddId" :model="item" id="item.id" :product_id="config.osv.editor_id" :index="item_index" :is='item.component'>
           </component>
           <ul class="operator-set" @mouseleave="leave_operator">
             <li v-for="(operator, operator_index) in operators" @click.prevent.stop="do_operator(operator.method, item, item_index)"
@@ -135,7 +135,6 @@
         var getFunc = self.config.getFunc || function () {
           return $.when($.post(self.config.get_url || '/images/get', {
             editor_id: self.config.osv.editor_id,
-            editor_sku: self.config.osv.editor_sku,
             osv_info: JSON.stringify(self.config.osv)
           }))
         }
@@ -186,6 +185,7 @@
       },
       do_operator: function (method, item, index) {
         if (method === 'delete') {
+          console.log(this.items)
           if (this.items[index].id > 0) {
             this.$http.post('/image/delete', {
               'id': this.items[index].id
@@ -220,6 +220,11 @@
       dragleave: function () {
         this.dragging = false
       },
+      newImageAddId: function (id, index) {
+        console.log(id)
+        console.log(index)
+        this.items[index].id = id
+      },
       imageChangeList: function (orderChangeList, ids) {
         this.$http.post('/image/change_order', {
           change_list: orderChangeList,
@@ -250,17 +255,13 @@
           if (item.index !== index) {
             item.index = index
             orderChangeList.push({
-              id: item.id, index: index, editor_sku: self.config.osv.editor_sku, file_url: item.value})
+              id: item.id,
+              index: index,
+              product_id: self.config.osv.editor_id,
+              file_url: item.value})
             ids.push('' + item.id)
           }
           if (item.id === 0) {
-            addImageList.push({
-              index: item.index,
-              image: item.file,
-              file_url: item.value,
-              product_id: self.config.osv.editor_id,
-              editor_sku: self.config.osv.editor_sku
-            })
           }
         })
         if (ids.length > 0 && orderChangeList.length > 0) {

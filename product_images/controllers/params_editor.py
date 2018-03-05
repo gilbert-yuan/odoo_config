@@ -147,42 +147,37 @@ class ParamsEditor(http.Controller):
 
     @http.route('/image/change_order', auth='public', type='json', csrf=False)
     def images_change_order(self, **kws):
-
         if request.jsonrequest.get('ids') and request.jsonrequest.get('ids') != ['undefined']:
-            try:
-                request.env.cr.execute("""UPDATE product_image ji SET
-                                            order_sort=(select order_sort + 100  
-                                            from product_image jin where jin.id=ji.id) 
-                                             WHERE id in (%s);""" % ','.join(request.jsonrequest.get('ids')))
-                for image in request.jsonrequest.get('change_list'):
-                    if not image.get('id'):
-                        continue
-                    request.env.cr.execute("""UPDATE product_image ji SET  order_sort=%s,is_primary=%s
-                                              WHERE id = %s""" % (image.get('index'),
-                                                                  not int(image.get('index')),
-                                                                  image.get('id')))
-                    if not int(image.get('index')):
-                        request.env.cr.execute("""UPDATE product_template jp SET image_path='%s' WHERE id = '%s'""" %
-                                               (image.get('file_url'), image.get('product_id')))
-                return {'result': 'success'}
-            except Exception as E:
-                return {'result': 'error', 'message': simplejson.dumps(E)}
+            request.env.cr.execute("""UPDATE product_image ji SET
+                                        order_sort=(select order_sort + 100  
+                                        from product_image jin where jin.id=ji.id) 
+                                         WHERE id in (%s);""" % ','.join(request.jsonrequest.get('ids')))
+            for image in request.jsonrequest.get('change_list'):
+                if not image.get('id'):
+                    continue
+                request.env.cr.execute("""UPDATE product_image ji SET  order_sort=%s,is_primary=%s
+                                          WHERE id = %s""" % (image.get('index'),
+                                                              not int(image.get('index')),
+                                                              image.get('id')))
+                if not int(image.get('index')):
+                    request.env.cr.execute("""UPDATE product_template jp SET image_path='%s' WHERE id ='%s'""" %
+                                           (image.get('file_url'), image.get('product_id')))
+            return {'result': 'success'}
 
     @http.route('/image/delete', auth='public', type='json', csrf=False)
     def images_delete(self, **kws):
-        try:
-            request.env.cr.execute("""DELETE FROM product_image WHERE id=%s""" % request.jsonrequest.get('id'))
-            return {'result': 'success'}
-        except Exception as E:
-            return {'result': 'error', 'message': simplejson.dumps(E)}
+        request.env.cr.execute("""DELETE FROM product_image WHERE id=%s""" % request.jsonrequest.get('id'))
+        return {'result': 'success'}
+
 
     @http.route('/images/add', auth='public', type='http', csrf=False)
     def images_add(self, **kws):
         file_url = self._generate_image_path('product.image', kws.get('product_id'), kws.get('file'))
-        request.env['product.image'].create({'template_id': kws.get('product_id'),
+        image_row = request.env['product.image'].create({'template_id': kws.get('product_id'),
                                              'image_path': file_url,
                                              'order_sort': kws.get('index'),
                                              'is_primary': not (int(kws.get('index')) - 1)})
-        if kws.get('index') == '1':
+        if kws.get('index') == '0':
             request.env.cr.execute("""UPDATE product_template jp SET image_path='%s' WHERE id = %s""" %
                                    (file_url, kws.get('product_id')))
+        return request.make_response(simplejson.dumps({'result': {'image_id': image_row.id }, 'code': 'success'}))

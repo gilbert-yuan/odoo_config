@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  props: ['model', 'product_id', 'editor_sku'],
+  props: ['model', 'product_id', 'id'],
   data () {
     return { loaded: false, imageWidth: 250, imageHeight: 200, mask_height: 0 }
   },
@@ -69,8 +69,12 @@ export default {
         formdata.append('index', this.model.index)
         if (this.product_id) {
           self.$http.post('/images/add', formdata, {headers: { 'Content-Type': 'multipart/form-data' }}).then(function (response) {
-            if (response.data.result === 'error') {
+            if (response.data.code === 'error') {
               alert(response.data)
+            } else {
+              console.log(response.data.result.image_id)
+              self.id = response.data.result.image_id
+              self.$emit('addId', response.data.result.image_id, self.model.index)
             }
           })
         }

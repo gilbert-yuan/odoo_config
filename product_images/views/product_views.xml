@@ -7,9 +7,9 @@
             <!--<script type='text/javascript' src='supplier/static/js/manifest.js'></script>-->
             <!--<script type='text/javascriptmain_picture' src='supplier/static/js/vendor.js'></script>-->
             <!--<script type='text/javascript' src='supplier/static/js/app.js'></script>-->
-            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/manifest.js'></script>
-            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/vendor.js'></script>
-            <script type='text/javascript' src='product_images/static/vop_componet/dist/static/js/app.js'></script>
+            <script type='text/javascript' src='product_images/static/js/manifest.js'></script>
+            <script type='text/javascript' src='product_images/static/js/vendor.js'></script>
+            <script type='text/javascript' src='product_images/static/js/app.js'></script>
         </xpath>
     </template>
     <data>

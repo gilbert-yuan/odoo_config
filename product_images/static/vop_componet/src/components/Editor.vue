@@ -444,12 +444,12 @@
   }
 
   .operator_icon_plus {
-    background: url('/supplier/static/img/add.png') no-repeat;
+    background: url('/product_images/static/img/add.png') no-repeat;
     background-size: 16px 16px
   }
 
   .operator_icon_delete {
-    background: url('/supplier/static/img/garbage.png') no-repeat;
+    background: url('/product_images/static/img/garbage.png') no-repeat;
     background-size: 16px 16px
   }
 
@@ -590,7 +590,7 @@
     right: 20px;
     width: 340px;
     height: 740px;
-    background: url('/supplier/static/img/iphone.png') no-repeat;
+    background: url('/product_images/static/img/iphone.png') no-repeat;
     background-position: -200px;
     transition: background-image .1s linear
   }

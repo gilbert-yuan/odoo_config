@@ -27,7 +27,7 @@ class ProductImage(models.Model):
     template_id = fields.Many2one('product.template', string=u'产品', index=True)
 
     _sql_constraints = [
-        ('sku_order_sort_uniq', 'unique (template_id, order_sort)', "SKU 图片顺序 已经存在请核对后再进行添加 !"),
+        ('product_template_sort_uniq', 'unique(template_id, order_sort)', "SKU 图片顺序 已经存在请核对后再进行添加 !"),
     ]
 
 

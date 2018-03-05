@@ -12,7 +12,7 @@
 """,
     "init_xml": [],
     'price': 200, 
-    'currency': 'EUR'
+    'currency': 'EUR',
     "demo_xml": [],
     "data": ["views/product_views.xml"],
     "active": False,
