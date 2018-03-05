@@ -4,6 +4,7 @@
     'summary': u"""
         东方团购odoo导入导出 部分定制功能模块""",
     'description': u"""
+
     """,
     'category': 'Tools',
     'author': ['静静<gilbert@osbzr.com>'],
