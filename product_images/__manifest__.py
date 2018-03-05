@@ -8,10 +8,11 @@
     "category": "tools",
     "description": """ 
     本模块主要解决，在odoo中产品多图片的上传，和图片的顺序。
-    <
     
 """,
     "init_xml": [],
+    'price': 200, 
+    'currency': 'EUR'
     "demo_xml": [],
     "data": ["views/product_views.xml"],
     "active": False,
