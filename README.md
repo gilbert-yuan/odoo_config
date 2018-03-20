@@ -18,15 +18,14 @@ ISODATEFORMAT = '%Y-%m-%d'
 
 Newdatetime = Datetime.convert_to_export
 def convert_to_export(self, value, env):
- timezone = pytz.timezone(env.context.get('tz'))
+    timezone = pytz.timezone(env.context.get('tz'))
     return_val = Newdatetime(self, value, env)
-   if isinstance(return_val, datetime.datetime) and return_val:
-         return self.to_string(return_val.replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone))
-   elif return_val:
-          return self.to_string(self.from_string(return_val).replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone))
-        return return_val
+    if isinstance(return_val, datetime.datetime) and return_val:
+        return self.to_string(return_val.replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone))
+    elif return_val:
+        return self.to_string(self.from_string(return_val).replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone))
+    return return_val
 Datetime.convert_to_export = convert_to_export
-
 
 
 import datetime, pytz
@@ -36,7 +35,6 @@ Newdatetime = Datetime.convert_to_export
 
 
 def convert_to_export(self, value, record):
- 
   timezone = pytz.timezone(record._context.get('tz'))
   return_val = Newdatetime(self, value, record)
   if isinstance(return_val, datetime.datetime) and return_val:
@@ -44,6 +42,5 @@ def convert_to_export(self, value, record):
   elif return_val:
        return self.to_string(self.from_string(return_val).replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone))
  return return_val
-
 Datetime.convert_to_export = convert_to_export
  ```
