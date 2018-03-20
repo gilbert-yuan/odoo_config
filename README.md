@@ -12,7 +12,7 @@
 4.自己探索写的odoo的手机端的适应代码。（projectPath）
 -----------------------------------
 5.odoo8 odoo11 自带导出，时间字段存在时区问题 
- ```
+ ```python
 from openerp.fields import Datetime, Field
 ISODATEFORMAT = '%Y-%m-%d'
 
