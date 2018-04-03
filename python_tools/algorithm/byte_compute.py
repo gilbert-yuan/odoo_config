@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
-
+"""
+http://www.jiuzhang.com/tutorial/bit-manipulation/84
+"""
 def left_move(num, step):
     # 可以看出，左移操作的结果“几乎”等于A * 2^B（如果不溢出的情况下）。
     # 因为位移运算比乘法和求幂的运算快很多很多
@@ -258,6 +260,8 @@ public class Solution {
         return ones;
     }
 }
+
+
 应用三：数组中，只有两个数出现一次，剩下都出现两次，找出出现一次的这两个数
 http://www.lintcode.com/en/problem/single-number-iii/
 

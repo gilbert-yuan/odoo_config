@@ -1,5 +1,7 @@
 # -*- conding: utf-8 -*-
-
+"""
+https://zhuanlan.zhihu.com/p/35175401
+"""
 def cache(func):
     data = {}
     def wrapper(n):
