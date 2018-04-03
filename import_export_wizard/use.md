@@ -1,3 +1,4 @@
+
 ###此文件为8.0 版示例 ❤新的版本请参考使用
 # -*- coding: utf-8-*-
 from openerp.osv import osv, fields, orm
