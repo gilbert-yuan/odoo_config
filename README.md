@@ -110,7 +110,7 @@ page.printOut()
     2. odoo的性能一直是使用odoo的人的心头之痛（这里指的不是垃圾代码引起的无所谓的消耗引起的系统很慢）
     	1. 在odoo中系统cache都是存储在内存中， 当访问系统的人增多的时候，cache的作用会越来越小，一些不必要的访问数据库，会越来越多，对odoo的性能来说是一大挑战，所以就想着把odoo的cache 存储到redis 中
     	2. 说干，就干https://github.com/gilbert-yuan/odoo_config/issues/2 这是探索的一个过程，最终结果当然是成功了呀，自己在RDM（redis 可视化工具） 中可以详细的看到缓存的使用情况
-    	 
+    	 ![RDM 中缓存的样子](https://git.kancloud.cn/repos/gilbert_yuan/odoo_mobile/raw/5818eb6aa8476f3ddafbfd5091a6e19fab122057/images/7C9BD6DE-6CC5-43F7-9DCE-5CFDAA5EC536.png?access-token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzA4OTI0NDMsImlhdCI6MTUzMDg0OTI0MywiYm9vayI6eyJ1cmkiOiJnaWxiZXJ0X3l1YW5cL29kb29fbW9iaWxlIiwiaXNfYXV0b19yZWxlYXNlIjpmYWxzZX0sInVzZXIiOnsidXNlcm5hbWUiOiJnaWxiZXJ0X3l1YW4iLCJuYW1lIjoiZ2lsYmVydF95dWFuIiwiZW1haWwiOiJnaWxiZXJ0QG9zYnpyLmNvbSIsInRva2VuIjoiODA4NDQ3M2M3NjU2ZmQyYmUyYTlhZTljNWUxYTZiNDciLCJhdXRob3JpemUiOnsicHVsbCI6dHJ1ZSwicHVzaCI6dHJ1ZSwiYWRtaW4iOnRydWV9fX0.yoABmhDLyiZpV310xOb92LmLRryDvr-vidYiNwfStaM)
     3.  odoo 中redis.lock
     	1. 先上代码再说用处
   ```python
