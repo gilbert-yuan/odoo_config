@@ -113,29 +113,29 @@ page.printOut()
     	 
     3.  odoo 中redis.lock
     	1. 先上代码再说用处
-    	  ```python
-    	    redis_instance = redis.Redis(host=redis_params.get('redis_host', 'localhost'),
-                             port=int(redis_params.get('redis_port', '6379')),
-                             db=int(redis_params.get('redis_decorate_db', '2')),
-                             password=redis_params.get("redis_password", ''))
+  ```python
+    redis_instance = redis.Redis(host=redis_params.get('redis_host', 'localhost'),
+		     port=int(redis_params.get('redis_port', '6379')),
+		     db=int(redis_params.get('redis_decorate_db', '2')),
+		     password=redis_params.get("redis_password", ''))
 
-    		def redis_lock(blocking=True, error_str="请稍后重试!", blocking_timeout=3, timeout=60):
-                def decorator(func):
-                    def wrapper(self, *args, **kwargs):
-                        purchase_need_refresh_lock = redis_instance.lock("%s_%s" % (self._table, func.func_name), timeout=timeout)
-                        if purchase_need_refresh_lock.acquire(blocking=blocking, blocking_timeout=blocking_timeout):
-                            try:
-                                func_return = func(self, *args, **kwargs)
-                            except Exception as error:
-                                raise error
-                            finally:
-                                purchase_need_refresh_lock.release()
-                        else:
-                            raise osv.except_osv(u'错误！', error_str)
-                        return func_return
-                    return wrapper
-                return decorator
-        ```
+	def redis_lock(blocking=True, error_str="请稍后重试!", blocking_timeout=3, timeout=60):
+	def decorator(func):
+	    def wrapper(self, *args, **kwargs):
+		purchase_need_refresh_lock = redis_instance.lock("%s_%s" % (self._table, func.func_name), timeout=timeout)
+		if purchase_need_refresh_lock.acquire(blocking=blocking, blocking_timeout=blocking_timeout):
+		    try:
+			func_return = func(self, *args, **kwargs)
+		    except Exception as error:
+			raise error
+		    finally:
+			purchase_need_refresh_lock.release()
+		else:
+		    raise osv.except_osv(u'错误！', error_str)
+		return func_return
+	    return wrapper
+	return decorator
+```
        3.  因为二开的功能存在多个人执行统一操作， 但是如果多人同时点击会存在数据上的重复的处理所以就 要加锁，当别人正在使用的时候其他人不能进行点击点击的效果进行延后
        4.  当然如果只是启动了一个服务的话，就用python 普通的线程锁是没有问题的，但是如果 开启了多个服务就需要多个服务共用一个锁。
        5.  至于如何无缝的开启多个服务就需要用到 用redis 进行cache 共用了
