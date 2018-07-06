@@ -40,7 +40,7 @@ odoo_config
 6. odoo8 odoo11 自带导出，时间字段存在时区问题 
 * * * * *
     1.如题 在odoo8 和odoo11中都是存在的，时区问题的影响，在系统自带的 导出文件的时候就会出现
- ```python
+```python
  # odoo 8 解决导出数据的时区问题
 from openerp.fields import Datetime, Field
 ISODATEFORMAT = '%Y-%m-%d'
@@ -81,20 +81,21 @@ Datetime.convert_to_export = convert_to_export
  	3. 
     4. pyh 模块使用方法[ http://hanxiaomax.github.io/trans/pyh-chinese-doc/](python tools 模块加入pyh模块的收藏 #1)
     5. 下面是使用片段， 感觉还是比手动拼接会高大上一点
-    ```python
-    from pyh import *
-    page = PyH('My wonderful PyH page')
-    page.addCSS('myStylesheet1.css', 'myStylesheet2.css')
-    page.addJS('myJavascript1.js', 'myJavascript2.js')
-    page << h1('My big title', cl='center')
-    page << div(cl='myCSSclass1 myCSSclass2', id='myDiv1') << p('I love PyH!', id='myP1')
-    mydiv2 = page << div(id='myDiv2')
-    mydiv2 << h2('A smaller title') + p('Followed by a paragraph.')
-    page << div(id='myDiv3')
-    page.myDiv3.attributes['cl'] = 'myCSSclass3'
-    page.myDiv3 << p('Another paragraph')
-    page.printOut()
-    ```
+   
+```python
+from pyh import *
+page = PyH('My wonderful PyH page')
+page.addCSS('myStylesheet1.css', 'myStylesheet2.css')
+page.addJS('myJavascript1.js', 'myJavascript2.js')
+page << h1('My big title', cl='center')
+page << div(cl='myCSSclass1 myCSSclass2', id='myDiv1') << p('I love PyH!', id='myP1')
+mydiv2 = page << div(id='myDiv2')
+mydiv2 << h2('A smaller title') + p('Followed by a paragraph.')
+page << div(id='myDiv3')
+page.myDiv3.attributes['cl'] = 'myCSSclass3'
+page.myDiv3 << p('Another paragraph')
+page.printOut()
+```
     
 -------------------------------------------
 8. odoo Redis 使用 主要使用了redis的这三个方面 (session cache redis.lock )
@@ -112,7 +113,7 @@ Datetime.convert_to_export = convert_to_export
     	 
     3.  odoo 中redis.lock
     	1. 先上代码再说用处
-    	2.  ```python
+    	  ```python
     	    redis_instance = redis.Redis(host=redis_params.get('redis_host', 'localhost'),
                              port=int(redis_params.get('redis_port', '6379')),
                              db=int(redis_params.get('redis_decorate_db', '2')),
