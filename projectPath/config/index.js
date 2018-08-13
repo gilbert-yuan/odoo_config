@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/mobile': {
-        target: 'http://dingding.tunnel.800890.com',
+        target: 'http://gooderp:8069',
         changeOrigin: true,
         pathRewrite: {
           '^/mobile': ''

@@ -1,0 +1,13 @@
+// $Id: config.w32 262799 2008-07-16 07:32:49Z tony2001 $
+// vim:ft=javascript
+
+ARG_WITH("sphinx", "for sphinx support", "yes");
+
+if (PHP_SPHINX == "yes") {
+	if (CHECK_LIB("libsphinxclient.lib", "sphinx_create") &&
+			CHECK_HEADER_ADD_INCLUDE("sphinxclient.h", "CFLAGS_SPHINX")) {
+
+		EXTENSION("sphinx", "sphinx.c");
+	}
+}
+
