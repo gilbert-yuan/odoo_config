@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import random
 def fast_sorted(L):
-    if len(L)< 2: return L
+    if len(L) < 2: return L
     pivot_element = random.choice(L)
     small = [i for i in L if i < pivot_element]
     medium = [i for i in L if i == pivot_element]
