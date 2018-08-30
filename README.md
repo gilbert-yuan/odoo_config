@@ -140,6 +140,8 @@ page.printOut()
        3.  因为二开的功能存在多个人执行统一操作， 但是如果多人同时点击会存在数据上的重复的处理所以就 要加锁，当别人正在使用的时候其他人不能进行点击点击的效果进行延后
        4.  当然如果只是启动了一个服务的话，就用python 普通的线程锁是没有问题的，但是如果 开启了多个服务就需要多个服务共用一个锁。
        5.  至于如何无缝的开启多个服务就需要用到 用redis 进行cache 共用了
-    
--- 9一些异步库的使用的小demo aiomysql, asyncio, asyncpg 在目录 python_tools／aio python_tools／aio_mysql python_tools／asyncpg
- 
+-------------------------------------------
+
+9.一些异步库的使用的小demo aiomysql, asyncio, asyncpg 在目录 python_tools／aio python_tools／aio_mysql python_tools／asyncpg
+
+ * * * * *
