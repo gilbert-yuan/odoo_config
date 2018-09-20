@@ -18,10 +18,10 @@ async def bound_fetch(sem, url, session):
         return result
 
 async def run(r, future):
-    url = "http://127.0.0.1:5000/get/sale/order/line/S17122926217"
+    url = "http://127.0.0.1:8000/get/sale/order/line/S17122926217"
     tasks = []
     # create instance of Semaphore
-    sem = asyncio.Semaphore(10000)
+    sem = asyncio.Semaphore(1000)
 
     # Create client session that will ensure we dont open new connection
     # per each request.
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     loop = asyncio.new_event_loop()    
     asyncio.set_event_loop(loop)
     future1 = asyncio.Future()
-    asyncio.ensure_future(run(100000, future1))
+    asyncio.ensure_future(run(10000, future1))
     loop.run_until_complete(asyncio.gather(future1, return_exceptions=True))
     loop.close()
 
