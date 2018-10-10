@@ -1,6 +1,7 @@
 # py3.5
 import asyncio
 import random
+import datetime
 from tqdm import tqdm
 from aiohttp import ClientSession
 
@@ -21,7 +22,7 @@ async def run(r, future):
     url = "http://127.0.0.1:8000/get/sale/order/line/S17122926217"
     tasks = []
     # create instance of Semaphore
-    sem = asyncio.Semaphore(1000)
+    sem = asyncio.Semaphore(100000)
 
     # Create client session that will ensure we dont open new connection
     # per each request.
@@ -35,10 +36,12 @@ async def run(r, future):
         future.set_result(responses.result())
         
 if __name__ == '__main__':
+    begin_date = datetime.datetime.now()
     loop = asyncio.new_event_loop()    
     asyncio.set_event_loop(loop)
     future1 = asyncio.Future()
-    asyncio.ensure_future(run(10000, future1))
+    asyncio.ensure_future(run(100000, future1))
     loop.run_until_complete(asyncio.gather(future1, return_exceptions=True))
     loop.close()
+    print('开始时间', begin_date, '结束时间', datetime.datetime.now())
 
